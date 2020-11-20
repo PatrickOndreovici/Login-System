@@ -2,10 +2,18 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/User')
 const bcrypt = require("bcryptjs")
+const passport = require('passport')
+const saltRounds = 10
 
 router.get('/login', (req, res) => {
     res.send("login")
 })
+
+router.post('/login',
+  passport.authenticate('local'),
+  function(req, res) {
+    res.send("logged in")
+  });
 
 router.get('/register', (req, res) => {
     res.send("register")
@@ -27,19 +35,21 @@ router.post("/register", (req, res) => {
         res.send(errors); 
     }
     else{
-        User.findOne({name: name}, (err, ans) => {
+        User.findOne({$or: [{ name: name }, { email: email }]}, (err, ans) => {
             if (ans){
                 errors.push("This user exists")
                 res.send(errors);
             }
             else{
-                const newUser = new User({name: name, email: email, password: password});
-                newUser.save()
-                .then(()=>{
-                    res.send("saved");
-                })
-                .catch((error) => {
-                    res.send("error");
+                bcrypt.hash(password, saltRounds, (err, hash) => {
+                    const newUser = new User({name: name, email: email, password: hash});
+                    newUser.save()
+                    .then(()=>{
+                        res.send("saved");
+                    })
+                    .catch((error) => {
+                        res.send("error");
+                    })
                 })
             }
         })
