@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://kit.fontawesome.com/632648f8f0.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class = "main">
+        <div style="flex: 1;">
+            <img src="/images/logo.png" alt="">
+            <a href="/users/register" style="font-size: 15px;">Create an account</a>
+        </div>
+        <div style="flex: 1;">
+            <form action="/users/login" method="post" autocomplete="off">
+                <i class="fas fa-user" style="margin-right: 6px;"></i> <input type="text" id="username" name="username" placeholder="username"><br>
+                <i class="fas fa-lock" style="margin-right: 6px;"></i> <input type="password" id="password" name="password" placeholder="password"><br><br>
+                <button type="submit">Log in</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

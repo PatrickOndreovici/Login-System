@@ -6,17 +6,17 @@ const passport = require('passport')
 const saltRounds = 10
 
 router.get('/login', (req, res) => {
-    res.send("login")
+    res.render('login')
 })
 
 router.post('/login',
   passport.authenticate('local'),
   function(req, res) {
-    res.send("logged in")
+    res.redirect("/");
   });
 
 router.get('/register', (req, res) => {
-    res.send("register")
+    res.render('register')
 })
 
 router.post("/register", (req, res) => {

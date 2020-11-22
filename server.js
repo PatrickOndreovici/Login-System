@@ -52,6 +52,8 @@ mongoose.connect(db, {
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err))
 
+app.set('view engine', 'ejs');
+app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }))
