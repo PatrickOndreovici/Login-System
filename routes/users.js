@@ -6,17 +6,19 @@ const passport = require('passport')
 const saltRounds = 10
 
 router.get('/login', (req, res) => {
-    res.render('login')
+    let errors = []
+    errors.push(req.flash().error)
+    res.render('login', {
+        errors: errors
+    })
 })
 
 router.post('/login',
-  passport.authenticate('local'),
-  function(req, res) {
-    res.redirect("/");
-  });
+passport.authenticate('local', { successRedirect: '/',
+failureRedirect: '/users/login', failureFlash: true}));
 
 router.get('/register', (req, res) => {
-    res.render('register')
+    res.render('register', {errors: []})
 })
 
 router.post("/register", (req, res) => {
@@ -32,20 +34,22 @@ router.post("/register", (req, res) => {
         errors.push("Password should be at least 6 characters")
     }
     if (errors.length > 0){
-        res.send(errors); 
+        res.render('register', {
+            errors: errors
+        }); 
     }
     else{
         User.findOne({$or: [{ name: name }, { email: email }]}, (err, ans) => {
             if (ans){
                 errors.push("This user exists")
-                res.send(errors);
+                res.render('register', {errors: errors})
             }
             else{
                 bcrypt.hash(password, saltRounds, (err, hash) => {
                     const newUser = new User({name: name, email: email, password: hash});
                     newUser.save()
                     .then(()=>{
-                        res.send("saved");
+                        res.redirect('/')
                     })
                     .catch((error) => {
                         res.send("error");

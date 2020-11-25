@@ -15,6 +15,9 @@
             <a href="/users/login" style="font-size: 15px;">Have an account ?</a>
         </div>
         <div style="flex: 1;">
+            <% for (let i = 0; i < errors.length; ++i){%>
+                <h5 style="color: red;"><%=errors[i]%></h5>
+            <%}%>
             <form action="/users/register" method="post" autocomplete="off">
                 <i class="fas fa-user" style="margin-right: 6px;"></i> <input type="text" id="username" name="name" placeholder="username"><br>
                 <i class="fas fa-envelope-open" style="margin-right: 6px;"></i> <input type="email" id="email" name="email" placeholder="email"><br>

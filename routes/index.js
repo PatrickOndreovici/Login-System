@@ -8,6 +8,7 @@ router.get('/', (req, res) => {
             res.render('index', {users: users});
          })
     } else {
+        req.flash('error', 'login first please')
         res.redirect('/users/login')
     }
 })
